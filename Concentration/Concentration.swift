@@ -74,9 +74,9 @@ struct Concentration
         // Get a new "shuffled" sequence
         let shuffled = GKShuffledDistribution(forDieWithSideCount: cards.count)
         let originalCards = cards
-        for index in 1...originalCards.count {
-            let newIndex = shuffled.nextInt()
-            cards[newIndex-1] = originalCards[index-1]
+        for index in 0..<originalCards.count {
+            let shuffledIndex = shuffled.nextInt() - 1
+            cards[index] = originalCards[shuffledIndex]
         }
     }
     

@@ -10,19 +10,18 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    lazy var game = Concentration(numberOfPairsOfCards: numberOfPairsOfCards)
-    
     var numberOfPairsOfCards: Int {
         return (cardButtons.count + 1) / 2
     }
-    
-    var flipCount = 0 {
-        didSet { flipCountLabel.text = "Flips: \(flipCount)" }
+
+    lazy var game = Concentration(numberOfPairsOfCards: numberOfPairsOfCards)
+
+    //Overriding this method lets us see the themeName when the game initially displays
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        updateViewFromModel()
     }
-    var score = 0 {
-        didSet { scoreLabel.text = "Score: \(score)" }
-    }
-    
+
     @IBOutlet weak var themeNameLabel: UILabel!
     @IBOutlet weak var flipCountLabel: UILabel!
     @IBOutlet weak var scoreLabel: UILabel!
@@ -35,12 +34,10 @@ class ViewController: UIViewController {
         } else {
             print("chosen card was not in cardButtons")
         }
-        
     }
     
     @IBAction func newGameButton(_ sender: UIButton) {
         game = Concentration(numberOfPairsOfCards: numberOfPairsOfCards)
-        themeNameLabel.text = game.theme.name
         updateViewFromModel()
     }
     
@@ -56,8 +53,9 @@ class ViewController: UIViewController {
                 button.backgroundColor = card.isMatched ? #colorLiteral(red: 1, green: 0.5763723254, blue: 0, alpha: 0) : #colorLiteral(red: 1, green: 0.5763723254, blue: 0, alpha: 1)
             }
         }
-        flipCount = game.flipCount
-        score = game.score
+        themeNameLabel.text = game.theme.name
+        flipCountLabel.text = "Flips: \(game.flipCount)"
+        scoreLabel.text = "Score: \(game.score)"
     }
     
     func emoji(for card: Card) -> String {
